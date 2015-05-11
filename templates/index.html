@@ -1,0 +1,34 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oz Content test search</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='foundation.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='app.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='foundation-icons.css') }}" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <script src="{{ url_for('static',filename='modernizr.js') }}"></script>
+  </head>
+  <body>
+    
+    
+    <div class="row center-div">
+      <div class="large-8 large-offset-2 large-centered columns end">
+        <div class="row text-center">
+          <h1>Welcome to Oz Zoo Search!</h1>
+          <div class="large-12 large-centered columns">
+            <a role="button" href="{{ url_for('views.oauth_authorize', provider='twitter') }}" class="webicon twitter button"> <i class="fi-social-twitter"></i> Login with Twitter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <script src="{{ url_for('static', filename='jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
