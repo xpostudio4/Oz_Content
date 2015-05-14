@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 This module crawl the webpage of the http://www.lpzoo.org and
 gets it on the database.
