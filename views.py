@@ -13,18 +13,19 @@ blueprint = Blueprint('views', __name__)
 def index():
     if current_user.is_anonymous():
         return render_template('index.html')
-    return render_template('search.html')
+    return render_template('search_home.html')
 
 
 @blueprint.route('/search')
 def search():
     keywords = request.args.get('query')
+    if not keywords:
+        return render_template('search.html', animals={}, keywords=keywords)
     query = keywords.split(' ')
-    if not query:
-        return render_template('search.html', animals=animals, query=query)
     animals = Animal.query.filter(Animal.name.ilike("%" + func.lower(query.pop()) + "%"))
     while query:
         animals = animals.union(Animal.query.filter(Animal.name.ilike("%" + func.lower(query.pop()) + "%")))
+    print(query)
     return render_template('search.html', animals=animals, keywords=keywords)
 
 

@@ -13,7 +13,7 @@
   <body>
 
     <div class="row center-div">
-      <div class="large-8 large-offset-2 large-centered medium-8 medium-offset-2 small-10 small-offset-1 columns end">
+      <div class="large-8 large-offset-2 large-centered columns end">
         <div class="row text-center">
           <h1>Oz Zoo Search!</h1>
           <div class="large-12 large-centered columns">
@@ -28,18 +28,14 @@
     {% if animals %}
      <div class="row">
       {% for animal in animals %}
-      <div class="animal-card large-4 medium-6 small-12 columns">
+      <div class="animal-card large-4 medium-4 small-4 columns{% if loop.last %} end{% endif%}">
           <div class="row">
-            <div class="large-8 large-offset-2 medium-8 medium-offset-2 small-8 small-offset-2 small-centered large-centered columns end">
+            <div class="large-8 large-offset-2 large-centered columns end">
               <img class="th" src="{{ animal.picture_url }}"/></br>
               <a class="text-center"  href="{{ animal.url }}">{{ animal.name }}</a>
-              <p class="text-justify">{{ animal.summary }}</p>
+              <p>{{ animal.summary }}</p>
             </div>
          </div>
-        </div>
-        {% else %}
-        <div class="large-8 large-offset-2 large-centered medium-8 medium-offset-2 small-10 small-offset-1 columns end">
-          <h3>Your search did not bring any result back!</h3>
         </div>
       {% endfor %}
      </div>
