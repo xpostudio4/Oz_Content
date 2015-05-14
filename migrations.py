@@ -14,7 +14,7 @@ if STAGE == 'local':
     app.debug = True
 else:
     #configuration of production
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ozcontent@127.0.0.1:5432/ozcontent'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ufcofxthphdbga:gaXaZs-830eOTtM8a7YccAqnTX@ec2-107-22-187-89.compute-1.amazonaws.com:5432/de0jhotbsj3mbq'
 
 db = SQLAlchemy(app)
 
