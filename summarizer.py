@@ -66,6 +66,4 @@ if __name__ == '__main__':
         for animal in Animal.query.all():
             animal.summary = fs.summarize(animal.text, 1).pop()
             db.session.commit()
-            print(animal.summary)
-
     print("summary created")
