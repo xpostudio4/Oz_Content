@@ -8,7 +8,6 @@ from views import blueprint
 
 STAGE = os.getenv('FLASK_CONFIGURATION_SETTINGS', 'production')
 
-
 app = Flask(__name__)
 app.register_blueprint(blueprint)
 
@@ -31,6 +30,7 @@ if STAGE == 'local':
 else:
     #configuration of production
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ozcontent@127.0.0.1:5432/ozcontent'
+
 
 db.init_app(app)
 lm = LoginManager(app)

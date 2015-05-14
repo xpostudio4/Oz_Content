@@ -18,3 +18,15 @@ border-radius: 4px;
 .fi-social-twitter{
   font-size: 24px;
 }
+
+.th {
+max-height: 100px;
+max-width: 100px;
+}
+
+.animal-card{
+ border-radius: 3px;
+ margin-bottom: 20px;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+}

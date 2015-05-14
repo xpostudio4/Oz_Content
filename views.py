@@ -2,7 +2,8 @@
 from flask import Blueprint, url_for, request, render_template, redirect, flash
 from flask.ext.login import LoginManager, login_user, logout_user, \
     current_user
-from models import db, User
+from sqlalchemy import func
+from models import db, User, Animal
 from oauth import OAuthSignIn
 
 blueprint = Blueprint('views', __name__)
@@ -17,8 +18,14 @@ def index():
 
 @blueprint.route('/search')
 def search():
-    query = request.args.get('query')
-    return render_template('search.html')
+    keywords = request.args.get('query')
+    query = keywords.split(' ')
+    if not query:
+        return render_template('search.html', animals=animals, query=query)
+    animals = Animal.query.filter(Animal.name.ilike("%" + func.lower(query.pop()) + "%"))
+    while query:
+        animals = animals.union(Animal.query.filter(Animal.name.ilike("%" + func.lower(query.pop()) + "%")))
+    return render_template('search.html', animals=animals, keywords=keywords)
 
 
 @blueprint.route('/logout')

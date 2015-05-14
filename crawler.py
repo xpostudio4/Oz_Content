@@ -2,12 +2,14 @@
 This module crawl the webpage of the http://www.lpzoo.org and
 gets it on the database.
 """
+import os
 import requests
 from bs4 import BeautifulSoup
 from flask import Flask, current_app
 from models import db, Animal
 
 ROOT = 'http://www.lpzoo.org'
+
 categories_list = [
     'http://www.lpzoo.org/animals/birds',
     'http://www.lpzoo.org/animals/mammals',
@@ -33,6 +35,7 @@ categories_list = [
     'http://www.lpzoo.org/node/16594',
 ]
 
+
 def get_url_links(url):
     value = requests.get(url)
     c = value.content
@@ -49,7 +52,8 @@ def get_url_links(url):
 
 def filter_to_only_animals(url_list):
     start_text = '{0}{1}'.format(ROOT, '/animals/factsheet/')
-    return [ link for link in url_list if link.startswith(start_text)]
+    return [link for link in url_list if link.startswith(start_text)]
+
 
 def scrape_full_site(root):
     pending = [root]
@@ -69,8 +73,10 @@ def get_animal_links(url_list):
         link_list.extend(get_url_links(link))
     return list(set(link_list))
 
+
 def get_animal_name(page):
     return page.find("h1", {"class": "title"}).text
+
 
 def get_page_data(link):
     """div afs_top_leftcol"""
@@ -82,6 +88,7 @@ def get_page_data(link):
     name = get_animal_name(page)
     return {'text':text, 'name': name, 'image': image, 'link': link}
 
+
 def scrape_animal_page(link_list):
     animal_list = []
     for link in link_list:
@@ -90,16 +97,29 @@ def scrape_animal_page(link_list):
 
 
 if __name__ == '__main__':
+    print("Starting the uploading of the database")
     animal_links = get_animal_links(categories_list)
     print("Got animals webpage links")
     animals = scrape_animal_page(animal_links)
     print("Get scraping info from each animal")
 
+    STAGE = os.getenv('FLASK_CONFIGURATION_SETTINGS', 'production')
     app = Flask(__name__)
+    if STAGE == 'local':
+        #configure local database
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ozcontent@127.0.0.1:5432/ozcontent'
+        app.debug = True
+    else:
+        #configuration of production
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ozcontent@127.0.0.1:5432/ozcontent'
+
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+
+    db.init_app(app)
     with app.app_context():
         for animal in animals:
             print("adding {} to the database".format(animal['name']))
             new_animal = Animal(name=animal['name'], text=animal['text'], url=animal['link'], picture_url=animal['image'])
             db.session.add(new_animal)
-        db.session.commit()
+            db.session.commit()
 

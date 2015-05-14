@@ -26,12 +26,14 @@ class Animal(db.Model):
     text = db.Column(db.Text)
     url = db.Column(db.String(264))
     picture_url = db.Column(db.String(264))
+    summary = db.Column(db.Text)
 
-    def __init__(self, name, text, url, picture_url):
+    def __init__(self, name, text, url, picture_url, summary=''):
         self.name = name
         self.text = text
         self.url = url
         self.picture_url = picture_url
+        self.summary = summary
 
     def __repr__(self):
         return '<Animal %r>' % self.name

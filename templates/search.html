@@ -11,22 +11,36 @@
     <script src="{{ url_for('static',filename='modernizr.js') }}"></script>
   </head>
   <body>
-    
-    
+
     <div class="row center-div">
       <div class="large-8 large-offset-2 large-centered columns end">
         <div class="row text-center">
           <h1>Oz Zoo Search!</h1>
           <div class="large-12 large-centered columns">
             <form method="GET" action="/search">
-              <input type="text" name="query" placeholder="Type the animal your looking for here">
+              <input type="text" name="query" placeholder="Type the animal your looking for here" {% if keywords %}value="{{ keywords }}"{% endif %}>
             </form>
           </div>
         </div>
       </div>
     </div>
+    <br/>
+    {% if animals %}
+     <div class="row">
+      {% for animal in animals %}
+      <div class="animal-card large-4 medium-4 small-4 columns{% if loop.last %} end{% endif%}">
+          <div class="row">
+            <div class="large-8 large-offset-2 large-centered columns end">
+              <img class="th" src="{{ animal.picture_url }}"/></br>
+              <a class="text-center"  href="{{ animal.url }}">{{ animal.name }}</a>
+              <p>{{ animal.summary }}</p>
+            </div>
+         </div>
+        </div>
+      {% endfor %}
+     </div>
+    {% endif %}
 
-    
     <script src="{{ url_for('static', filename='jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
     <script>
