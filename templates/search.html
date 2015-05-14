@@ -1,17 +1,6 @@
-<!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Oz Content test search</title>
-    <link rel="stylesheet" href="{{ url_for('static',filename='foundation.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static',filename='app.css') }}" />
-    <link rel="stylesheet" href="{{ url_for('static',filename='foundation-icons.css') }}" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <script src="{{ url_for('static',filename='modernizr.js') }}"></script>
-  </head>
-  <body>
+{% extends "base.html" %}
 
+{% block content %}
     <div class="row center-div">
       <div class="large-8 large-offset-2 large-centered medium-8 medium-offset-2 small-10 small-offset-1 columns end">
         <div class="row text-center">
@@ -45,10 +34,4 @@
      </div>
     {% endif %}
 
-    <script src="{{ url_for('static', filename='jquery.js') }}"></script>
-    <script src="{{ url_for('static', filename='foundation.min.js') }}"></script>
-    <script>
-      $(document).foundation();
-    </script>
-  </body>
-</html>
+{% endblock content %}
