@@ -104,23 +104,17 @@ if __name__ == '__main__':
     animals = scrape_animal_page(animal_links)
     print("Get scraping info from each animal")
 
-    STAGE = os.getenv('FLASK_CONFIGURATION_SETTINGS', 'production')
     app = Flask(__name__)
-    if STAGE == 'local':
-        #configure local database
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ozcontent@127.0.0.1:5432/ozcontent'
-        app.debug = True
-    else:
-        #configuration of production
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://ufcofxthphdbga:gaXaZs-830eOTtM8a7YccAqnTX@ec2-107-22-187-89.compute-1.amazonaws.com:5432/de0jhotbsj3mbq'
-
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config.from_object('config.FinalConfig')
 
     db.init_app(app)
     with app.app_context():
         for animal in animals:
             print("adding {} to the database".format(animal['name']))
-            new_animal = Animal(name=animal['name'], text=animal['text'], url=animal['link'], picture_url=animal['image'])
+            new_animal = Animal(name=animal['name'],
+                                text=animal['text'],
+                                url=animal['link'],
+                                picture_url=animal['image'])
             db.session.add(new_animal)
             db.session.commit()
 

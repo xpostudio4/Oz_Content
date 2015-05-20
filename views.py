@@ -18,6 +18,8 @@ def index():
 
 @blueprint.route('/search')
 def search():
+    if current_user.is_anonymous():
+        return redirect(url_for('views.index'))
     keywords = request.args.get('query')
     if not keywords:
         return render_template('search.html', animals={}, keywords=keywords)
